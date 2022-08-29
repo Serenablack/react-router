@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useParams } from "react-router-dom";
 const Home = () => (
   <div>
     <h2>TKTL notes app</h2>{" "}
@@ -11,16 +11,6 @@ const Notes = ({ notes }) => (
     <h2>Notes</h2>
     <ul>
       {notes.map((note) => (
-        <li key={note.id}>{note.content}</li>
-      ))}
-    </ul>
-  </div>
-);
-const Note = ({ notes }) => (
-  <div>
-    <h2>Notes</h2>
-    <ul>
-      {notes.map((note) => (
         <li key={note.id}>
           <Link to={`/notes/${note.id}`}>{note.content}</Link>
         </li>
@@ -28,6 +18,22 @@ const Note = ({ notes }) => (
     </ul>
   </div>
 );
+const Note = ({ notes }) => {
+  const id = useParams().id;
+  const note = notes.find((n) => n.id === Number(id));
+  return (
+    <div>
+      <h2>Notes</h2>
+      <div>
+        <h2>{note.content}</h2>
+        <div>{note.user}</div>
+        <div>
+          <strong>{note.important ? "important" : ""}</strong>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Users = () => (
   <div>
