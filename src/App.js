@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Routes, Route, Link, useParams } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Link,
+  useParams,
+  useNavigate,
+  useMatch,
+} from "react-router-dom";
 const Home = () => (
   <div>
     <h2>TKTL notes app</h2>{" "}
@@ -18,9 +25,10 @@ const Notes = ({ notes }) => (
     </ul>
   </div>
 );
-const Note = ({ notes }) => {
-  const id = useParams().id;
-  const note = notes.find((n) => n.id === Number(id));
+const Note = ({ note }) => {
+  console.log(note);
+  // const id = useParams().id;
+  // const note = notes.find((n) => n.id === Number(id));
   return (
     <div>
       <h2>Notes</h2>
@@ -40,6 +48,31 @@ const Users = () => (
     <h2>Users</h2>{" "}
   </div>
 );
+
+const Login = (props) => {
+  const navigate = useNavigate();
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    props.onLogin("Raju");
+    navigate("/");
+  };
+
+  return (
+    <div>
+      <h2>login</h2>
+      <form onSubmit={onSubmit}>
+        <div>
+          username: <input />
+        </div>
+        <div>
+          password: <input type="password" />
+        </div>
+        <button type="submit">login</button>
+      </form>
+    </div>
+  );
+};
 
 function App() {
   const [notes, setNotes] = useState([
@@ -63,9 +96,22 @@ function App() {
     },
   ]);
 
+  const [user, setUser] = useState(null);
+
+  const login = (user) => {
+    setUser(user);
+  };
+
   const padding = {
     padding: 5,
   };
+
+  const match = useMatch("/notes/:id");
+
+  const note = match
+    ? notes.find((note) => note.id === Number(match.params.id))
+    : null;
+
   return (
     <div>
       <div>
@@ -78,12 +124,21 @@ function App() {
         <Link style={padding} to="/users">
           users
         </Link>
+        {user ? (
+          <em>{user} logged in</em>
+        ) : (
+          <Link style={padding} to="/login">
+            login
+          </Link>
+        )}
+
         <Routes>
-          <Route path="/notes/:id" element={<Note notes={notes} />} />
+          <Route path="/notes/:id" element={<Note note={note} />} />
 
           <Route path="/notes" element={<Notes notes={notes} />} />
           <Route path="/users" element={<Users />} />
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login onLogin={login} />} />
         </Routes>
       </div>
     </div>
