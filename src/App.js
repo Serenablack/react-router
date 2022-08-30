@@ -7,6 +7,7 @@ import {
   useNavigate,
   useMatch,
 } from "react-router-dom";
+import { useField } from "./hooks";
 const Home = () => (
   <div>
     <h2>TKTL notes app</h2>{" "}
@@ -52,9 +53,12 @@ const Users = () => (
 const Login = (props) => {
   const navigate = useNavigate();
 
+  const username = useField("text");
+  const pswd = useField("password");
+
   const onSubmit = (event) => {
     event.preventDefault();
-    props.onLogin("Raju");
+    props.onLogin(username.value);
     navigate("/");
   };
 
@@ -63,10 +67,20 @@ const Login = (props) => {
       <h2>login</h2>
       <form onSubmit={onSubmit}>
         <div>
-          username: <input />
+          username:{" "}
+          <input
+            type={username.type}
+            value={username.value}
+            onChange={username.onChangeHandler}
+          />
         </div>
         <div>
-          password: <input type="password" />
+          password:{" "}
+          <input
+            type={pswd.type}
+            value={pswd.value}
+            onChange={pswd.onChangeHandler}
+          />
         </div>
         <button type="submit">login</button>
       </form>
