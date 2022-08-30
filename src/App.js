@@ -55,6 +55,7 @@ const Login = (props) => {
 
   const username = useField("text");
   const pswd = useField("password");
+  const resetBtn = useField("button");
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -83,6 +84,9 @@ const Login = (props) => {
           />
         </div>
         <button type="submit">login</button>
+        <button type={resetBtn.type} onClick={() => resetBtn.clear}>
+          reset
+        </button>
       </form>
     </div>
   );
