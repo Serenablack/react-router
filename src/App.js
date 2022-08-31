@@ -9,6 +9,8 @@ import {
   TextField,
   Button,
   Alert,
+  AppBar,
+  Toolbar,
 } from "@mui/material";
 import { useState } from "react";
 // import { Button, Table } from "react-bootstrap";
@@ -171,6 +173,10 @@ function App() {
 
   const login = (user) => {
     setUser(user);
+    setMessage(`welcome ${user}`);
+    setTimeout(() => {
+      setMessage(null);
+    }, 10000);
   };
 
   const padding = {
@@ -187,22 +193,26 @@ function App() {
     <div>
       <Container>
         {message && <Alert severity="success">{message}</Alert>}
-        <Link style={padding} to="/">
-          home
-        </Link>
-        <Link style={padding} to="/notes">
-          notes
-        </Link>
-        <Link style={padding} to="/users">
-          users
-        </Link>
-        {user ? (
-          <em>{user} logged in</em>
-        ) : (
-          <Link style={padding} to="/login">
-            login
-          </Link>
-        )}
+        <AppBar position="static">
+          <Toolbar>
+            <Button color="inherit" component={Link} to="/">
+              home
+            </Button>
+            <Button color="inherit" component={Link} to="/notes">
+              notes
+            </Button>
+            <Button color="inherit" component={Link} to="/users">
+              users
+            </Button>
+            {user ? (
+              <em>{user} logged in</em>
+            ) : (
+              <Button color="inherit" component={Link} to="/login">
+                login
+              </Button>
+            )}
+          </Toolbar>
+        </AppBar>
 
         <Routes>
           <Route path="/notes/:id" element={<Note note={note} />} />
