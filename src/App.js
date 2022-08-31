@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Table, Form, Button } from "react-bootstrap";
+
 import {
   Routes,
   Route,
@@ -9,20 +11,34 @@ import {
 } from "react-router-dom";
 const Home = () => (
   <div>
-    <h2>TKTL notes app</h2>{" "}
+    <h2>TKTL notes app</h2>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+      est laborum.
+    </p>
   </div>
 );
 
 const Notes = ({ notes }) => (
   <div>
     <h2>Notes</h2>
-    <ul>
-      {notes.map((note) => (
-        <li key={note.id}>
-          <Link to={`/notes/${note.id}`}>{note.content}</Link>
-        </li>
-      ))}
-    </ul>
+    <Table striped>
+      <tbody>
+        {notes.map((note) => (
+          <tr key={note.id}>
+            <td>
+              <Link to={`/notes/${note.id}`}>{note.content} </Link>
+            </td>
+            <td>{note.user}</td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
   </div>
 );
 const Note = ({ note }) => {
@@ -32,6 +48,7 @@ const Note = ({ note }) => {
   return (
     <div>
       <h2>Notes</h2>
+
       <div>
         <h2>{note.content}</h2>
         <div>{note.user}</div>
@@ -54,7 +71,7 @@ const Login = (props) => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    props.onLogin("Raju");
+    props.onLogin("Sandhya");
     navigate("/");
   };
 
@@ -62,13 +79,15 @@ const Login = (props) => {
     <div>
       <h2>login</h2>
       <form onSubmit={onSubmit}>
-        <div>
-          username: <input />
-        </div>
-        <div>
-          password: <input type="password" />
-        </div>
-        <button type="submit">login</button>
+        <Form.Group>
+          <Form.Label>username:</Form.Label>
+          <Form.Control type="text" name="username" />
+          <Form.Label>password:</Form.Label>
+          <Form.Control type="password" />
+          <Button variant="primary" type="submit">
+            login
+          </Button>
+        </Form.Group>
       </form>
     </div>
   );
@@ -113,7 +132,7 @@ function App() {
     : null;
 
   return (
-    <div>
+    <div className="container">
       <div>
         <Link style={padding} to="/">
           home
