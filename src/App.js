@@ -8,6 +8,7 @@ import {
   useNavigate,
   useMatch,
 } from "react-router-dom";
+import { useField } from "./hooks";
 const Home = () => (
   <div>
     <h2>TKTL notes app</h2>{" "}
@@ -58,6 +59,13 @@ const Users = () => (
 const Login = (props) => {
   const navigate = useNavigate();
 
+  const username = useField("text");
+  const pswd = useField("password");
+  const resetBtn = () => {
+    username.clear();
+    pswd.clear();
+  };
+
   const onSubmit = (event) => {
     event.preventDefault();
     props.onLogin(username.value);
@@ -67,15 +75,45 @@ const Login = (props) => {
   return (
     <div>
       <h2>login</h2>
-      <form onSubmit={onSubmit}>
+      {/* <form onSubmit={onSubmit}>
         <div>
-          username: <input />
+          username:{" "}
+          <input
+            type={username.type}
+            value={username.value}
+            onChange={username.onChangeHandler}
+          />
         </div>
         <div>
-          password: <input type="password" />
+          password:{" "}
+          <input
+            type={pswd.type}
+            value={pswd.value}
+            onChange={pswd.onChangeHandler}
+          />
         </div>
         <button type="submit">login</button>
-      </form>
+      </form> */}
+      <Form onSubmit={onSubmit}>
+        <Form.Group>
+          <Form.Label>username:</Form.Label>
+          <Form.Control
+            type={username.type}
+            value={username.value}
+            onChange={username.onChangeHandler}
+          />
+          <Form.Label>password:</Form.Label>
+          <Form.Control
+            type={pswd.type}
+            value={pswd.value}
+            onChange={pswd.onChangeHandler}
+          />
+          <Button variant="primary" type="submit">
+            login
+          </Button>
+        </Form.Group>
+      </Form>
+      <button onClick={() => resetBtn()}>reset</button>
     </div>
   );
 };
@@ -120,7 +158,7 @@ function App() {
 
   return (
     <div>
-      <div>
+      <div className="container">
         <Link style={padding} to="/">
           home
         </Link>
