@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Table } from "react-bootstrap";
+import { Button, Form, Table } from "react-bootstrap";
 import {
   Routes,
   Route,
@@ -75,7 +75,7 @@ const Login = (props) => {
   return (
     <div>
       <h2>login</h2>
-      <form onSubmit={onSubmit}>
+      {/* <form onSubmit={onSubmit}>
         <div>
           username:{" "}
           <input
@@ -93,7 +93,26 @@ const Login = (props) => {
           />
         </div>
         <button type="submit">login</button>
-      </form>
+      </form> */}
+      <Form onSubmit={onSubmit}>
+        <Form.Group>
+          <Form.Label>username:</Form.Label>
+          <Form.Control
+            type={username.type}
+            value={username.value}
+            onChange={username.onChangeHandler}
+          />
+          <Form.Label>password:</Form.Label>
+          <Form.Control
+            type={pswd.type}
+            value={pswd.value}
+            onChange={pswd.onChangeHandler}
+          />
+          <Button variant="primary" type="submit">
+            login
+          </Button>
+        </Form.Group>
+      </Form>
       <button onClick={() => resetBtn()}>reset</button>
     </div>
   );
